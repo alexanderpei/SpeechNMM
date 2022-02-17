@@ -37,7 +37,9 @@ for ir = 1:nr
     subplot(nr+2,1,ir+2)
     hold on
     for iCond = 1:2
-        plot(P.t, sol(iCond).y(is+1,:) - sol(iCond).y(is+2,:))
+        temp = sol(iCond).y(is+1,:) - sol(iCond).y(is+2,:);
+        temp = temp./max(temp);
+        plot(P.t, temp)
     end
     ylabel(['Pop. ' num2str(ir)], 'FontWeight', 'bold')
 end
@@ -52,7 +54,7 @@ ylabel('Input', 'FontWeight', 'bold')
 
 %%
 
-fStart = 0;
+fStart = 1;
 fEnd   = 10;
 
 figure
@@ -64,6 +66,7 @@ for ir = 1:nr
 
     for iCond = 1:2
         temp = sol(iCond).y(is+1,:) - sol(iCond).y(is+2,:);
+        temp = temp./max(temp);
         [p, f] = pspectrum(temp, 1/P.dt);
         [~,iStart] = min(abs(f-fStart));
         [~,iEnd] = min(abs(f-fEnd));

@@ -22,7 +22,7 @@ winWord = zeros([1 length(P.t)]);
 for iWin = 1:size(P.win, 1)
     idx = (P.t > mean(P.win(iWin, 1))) & (P.t < P.win(iWin, 2));    
     t = 1:1:length(find(idx));
-    tempExp = exp(-t/200);
+    tempExp = exp(-t/10);
     winWord(idx) = tempExp;
 end
 
@@ -37,17 +37,17 @@ Ad = zeros(nt, nr, nr, nts, nts);
 Af = zeros(nt, nr, nr);
 Af(:, 2,1) = 10;
 Af(:, 3,1) = 40;
-% Af(:, 4,3) = 10;
+Af(:, 2,3) = 10;
 % Af(:, 5,4) = 10;
 
 Ab = zeros(nt, nr, nr);
 if P.iCond == 1
     for it = 1:nt
-        Ab(it, 2,3) = winWord(it)*50;
+        Ab(it, 2,3) = winWord(it)*100;
     end
 else
     for it = 1:nt
-        Ab(it, 2,3) = 5;
+        Ab(it, 2,3) = 50;
     end
 end
 
