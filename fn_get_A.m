@@ -20,9 +20,10 @@ winWord = zeros([1 length(P.t)]);
 
 % Feedback exponential 
 for iWin = 1:size(P.win, 1)
-    idx = (P.t > mean(P.win(iWin, 1))) & (P.t < P.win(iWin, 2));    
-    t = 1:1:length(find(idx));
-    tempExp = exp(-t/10);
+    idx = (P.t >= P.win(iWin, 1)) & (P.t <= P.win(iWin, 2));
+    wrdDur = P.win(iWin, 2) - P.win(iWin, 1);
+    t = linspace(0, wrdDur, length(find(idx)));
+    tempExp = exp(-t/wrdDur*100);
     winWord(idx) = tempExp;
 end
 
@@ -35,19 +36,21 @@ Ad = zeros(nt, nr, nr, nts, nts);
 
 % Forward, backward, lateral connectivity matrices
 Af = zeros(nt, nr, nr);
-Af(:, 2,1) = 10;
-Af(:, 3,1) = 40;
-Af(:, 2,3) = 10;
-% Af(:, 5,4) = 10;
+Af(:, 2,1) = 60.0936;
+Af(:, 3,2) = 50.7492;
+Af(:, 4,3) = 47.7386;
+Af(:, 5,4) = 46.6160;
+Af(:, 6,5) = 47.7386;
+Af(:, 7,6) = 46.6160;
 
 Ab = zeros(nt, nr, nr);
 if P.iCond == 1
     for it = 1:nt
-        Ab(it, 2,3) = winWord(it)*100;
+        Ab(it, 2,3) = winWord(it)*0;
     end
 else
     for it = 1:nt
-        Ab(it, 2,3) = 50;
+        Ab(it, 2,3) = 0;
     end
 end
 
@@ -89,7 +92,7 @@ for it = 1:nt
             if jr ~= ir
                 js = (jr-1)*ns+1;
                 Ad(it, ir, jr, is+4, js+8) = P.A*P.a*(Ab(it, ir, jr) + Al(it, ir, jr));
-                % Ad(it, ir, jr, is+4, js+8) = P.A*P.a*(Al(it, ir, jr));
+                Ad(it, ir, jr, is+4, js+8) = P.A*P.a*(Al(it, ir, jr));
             end
         end
 
