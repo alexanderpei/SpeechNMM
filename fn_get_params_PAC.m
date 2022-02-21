@@ -33,11 +33,27 @@ P.dt = 1/1000;
 P.ptr = P.ptr./max(P.ptr);
 P.dur = length(P.ptr)*P.dt;
 P.t = 0:P.dt:P.dur-P.dt;
-P.ni    = repmat(P.ptr', [P.ns 1]);
+
+P.ni = zeros(P.ns, length(P.t));
+P.ni(7, :) = P.ptr;
+
+% Window input
+winWord = zeros([1 length(P.t)]);
+for iWin = 1:size(P.win, 1)
+    idx = (P.t >= P.win(iWin, 1)) & (P.t <= P.win(iWin, 2));
+    wrdDur = P.win(iWin, 2) - P.win(iWin, 1);
+    t = linspace(0, wrdDur, length(find(idx)));
+    tempExp = exp(-t/wrdDur*2);
+    winWord(idx) = tempExp;
+end
+P.ni(5, :) = winWord;
 
 % Add static input to layers 
-P.ni(6, :) = randn([1, length(P.t)]);
-P.ni(6, 1000:end) = 0;
+% P.ni(6, :) = randn([1, length(P.t)]);
+% P.ni(6, 1000:end) = 0;
+% P.ni(12, :) = randn([1, length(P.t)]);
+% P.ni(5, :) = randn([1, length(P.t)]);
+% P.ni(5, 1000:end) = 0;
 
 P.d  = [1:nr]*10/1000;
 
@@ -45,9 +61,9 @@ P.d  = [1:nr]*10/1000;
 P.G = [3.25, 3.25, 30, 10, 3.25, 30, 10, 3.25, 3.25, 30, 10, 3.25, 30, 10];
 % P.k = [60, 70, 30, 300, 60, 30, 250, 60, 70, 30, 250, 60, 30, 250];
 P.k = [60, 70, 30, 350, 60, 30, 350, 60, 70, 30, 350, 60, 30, 350];
-P.p = [0, 0, 0, 0, 500, 100, 150, 0, 0, 0, 0, 0, 0, 0];
+P.p = [0, 0, 0, 0, 5, 0, 150, 0, 0, 0, 0, 0, 0, 0];
 % P.p = [10, 10, 10, 10, 10, 10, 5, 10, 10, 10, 10, 10, 10, 10];
-P.b = [2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2];
+P.b = [2, 1, 2, 2, 0.1, 2, 2, 2, 2, 1, 2, 2, 2, 2];
 
 P.e0 = 5;
 P.v0 = 6;

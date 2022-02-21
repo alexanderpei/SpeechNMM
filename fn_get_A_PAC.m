@@ -81,3 +81,27 @@ end
 
 subplot(5,1,1)
 plot(P.ptr)
+
+%%
+
+figure
+subplot(4,1,1)
+plot(P.ptr)
+title('Speech Input')
+
+subplot(4,1,2)
+plot(P.ni(5,:))
+title('Word boundary firing rate input')
+
+subplot(4,1,3)
+plot(sol.y(5, :))
+title('Pop. 2 Response')
+
+subplot(4,1,4)
+plot(sol.y(7,:))
+title('Pop. 1 Response')
+
+
+
+
+
