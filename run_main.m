@@ -8,7 +8,7 @@ ns  = 9;     % State parameters per region (Olivier David 2005 Modelling..)
 nts = nr*ns; % Total number of states
 
 P = fn_get_params(nr, ns);
-nCond = 1;
+nCond = 2;
 
 %% Run solver
 
@@ -33,8 +33,6 @@ load merge
 
 fprintf('Phn: %d Rate: %0.4f\n',size(allPhn, 1), size(allPhn, 1)./P.dur)
 fprintf('Wrd: %d Rate: %0.4f\n',size(allWrd, 1), size(allWrd, 1)./P.dur)
-
-
 
 %%
 
@@ -64,7 +62,7 @@ ylabel('Input', 'FontWeight', 'bold')
 %%
 
 fStart = 2;
-fEnd   = 10;
+fEnd   = 100;
 
 figure
 hold on

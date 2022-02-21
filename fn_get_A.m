@@ -23,7 +23,7 @@ for iWin = 1:size(P.win, 1)
     idx = (P.t >= P.win(iWin, 1)) & (P.t <= P.win(iWin, 2));
     wrdDur = P.win(iWin, 2) - P.win(iWin, 1);
     t = linspace(0, wrdDur, length(find(idx)));
-    tempExp = exp(-t/wrdDur*100);
+    tempExp = exp(-t/wrdDur);
     winWord(idx) = tempExp;
 end
 
@@ -46,11 +46,11 @@ Af(:, 7,6) = 46.6160;
 Ab = zeros(nt, nr, nr);
 if P.iCond == 1
     for it = 1:nt
-        Ab(it, 2,3) = winWord(it)*0;
+        Ab(it, 1,2) = winWord(it)*500;
     end
 else
     for it = 1:nt
-        Ab(it, 2,3) = 0;
+        Ab(it, 1,2) = 0;
     end
 end
 
