@@ -13,7 +13,7 @@ allWrd = [];
 allPhn = [];
 sent = cell(length(dirWav), 3);
 
-for iFile = 1:2
+for iFile = 1:1
 
     [aud, fs] = audioread(fullfile(pathData, dirWav(iFile).name));
     wrd       = readcell(fullfile(pathData, dirWrd(iFile).name), 'FileType', 'text');

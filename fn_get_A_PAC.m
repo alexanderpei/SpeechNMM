@@ -28,12 +28,18 @@ for it = 1:nt
         is = (ir-1)*ns+1;
 
         for m = 1:ns
+            if ismember(m, [5 7])
             A(it, m, m+ns)     = 1;
 
             A(it, m+ns, m+ns)  = -2*P.k(m)*P.b(m);
             A(it, m+ns, m)     = -P.k(m)^2;
 
-            As(it, m+ns, is:is+ns-1) = P.G(m)*P.k(m)*P.g(:, m);
+            if m == 5
+                As(it, m+ns, is:is+ns-1) = P.G(m)*P.k(m)*P.g(:, m)*10;
+            else
+                As(it, m+ns, is:is+ns-1) = P.G(m)*P.k(m)*P.g(:, m);
+            end
+            end
         end
 
     end
